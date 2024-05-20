@@ -1,0 +1,71 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+use App\Http\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Log;
+
+class {{ class }} extends Controller
+{
+    use ApiResponseTrait;
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        try {
+            ${{ modelVariable }}s = {{ model }}::all();
+            return $this->customeResponse({{ model }}Resource::collection(${{ modelVariable }}s),'Done',200);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return $this->customeResponse(null,"Error, There somthing Rong here",500);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{ storeRequest }} $request)
+    {
+    
+        ${{ modelVariable }} = {{ model }}::create([
+            
+        ]);
+        return $this->customeResponse(new {{ model }}Resource(${{ modelVariable }}), ' Created Successfuly', 200);
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{ model }} ${{ modelVariable }})
+    {
+       
+        return $this->customeResponse(new {{ model }}Resource(${{ modelVariable }}), 'Done', 200);
+       
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }})
+    { 
+      
+        ${{ modelVariable }}->a = ${{ modelVariable }}->input('') ?? ${{ modelVariable }}->a;
+        ${{ modelVariable }}->save();
+        return $this->customeResponse(new {{ model }}Resource(${{ modelVariable }}), 'updated Successfuly', 200);
+    
+}
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        ${{ modelVariable }}->delete();
+        return $this->customeResponse("", ' deleted successfully', 200);
+}
+}
